@@ -1,20 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DotNetCoreIdentity.Mvc.Models
 {
-    public class User
+    public class User : IdentityUser<int>
     {
-        public int Id { get; set; }
+        // 学号
+        //Identity中已经存在的方法，要重写override
         [Required]
-        [Display(Name = "用户名")]
-        public string UserName { get; set; }
-        [Display(Name = "密码")]
+        public override string UserName { get; set; }
+
+        //姓名
         [Required]
-        public string UserPwd { get; set; }
-        public string Nothing { get; set; }
+        public string Name { get; set; }
+
+        //手机号
+        //Identity中已经存在的方法，要重写override
+        [StringLength(14, MinimumLength = 11)]
+        public override string PhoneNumber { get; set; }
+
+        //邮箱
+        //Identity中已经存在的方法，要重写override
+        public override string Email { get; set; }
     }
 }

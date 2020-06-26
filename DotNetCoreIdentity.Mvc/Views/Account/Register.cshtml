@@ -1,29 +1,35 @@
-﻿
+﻿@model DotNetCoreIdentity.Mvc.ViewModels.RegisterViewModel
 
-@model DotNetCoreIdentity.Mvc.ViewModels.RegisterViewModel
-<h1>注册</h1>
+<h2>注册</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-action="Register" asp-controller="Account">
-            <h4>Login</h4>
-
-            <div class="form-group">
-                <label asp-for="UserName"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" />
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" />
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-default">注册</button>
-            </div>
-            <div asp-validation-summary="All"> </div>
-        </form>
+<form asp-action="Register" asp-controller="Account" method="post">
+    <div class="form-group">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" class="form-control" placeholder="请输入你的学号" />
     </div>
-</div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" placeholder="请输入你的姓名" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" placeholder="请输入你的邮箱" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" placeholder="请输入你的手机" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" placeholder="请输入你的密码" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" class="form-control" placeholder="请确认你的密码" />
+    </div>
+    <div>
+        <input type="submit" value="注册" />
+    </div>
+
+    <div asp-validation-summary="All"></div>
+</form>

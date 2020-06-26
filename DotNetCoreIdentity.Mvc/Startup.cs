@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCoreIdentity.Mvc.Data;
+using DotNetCoreIdentity.Mvc.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -26,10 +29,20 @@ namespace DotNetCoreIdentity.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IdentityDbContext>(options =>
-            options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<IdentityDbContext>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            //注册数据库连接
+            services.AddDbContext<ApplicationDbContext>(options =>
+                   options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+
+            // 配置 Identity
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
 
             services.Configure<IdentityOptions>(options =>
@@ -59,11 +72,10 @@ namespace DotNetCoreIdentity.Mvc
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-
 
 
         }
@@ -84,7 +96,7 @@ namespace DotNetCoreIdentity.Mvc
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseRouting();     
+            app.UseRouting();
             app.UseAuthentication();
 
             app.UseAuthorization();

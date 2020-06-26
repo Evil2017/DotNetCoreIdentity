@@ -1,103 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DotNetCoreIdentity.Mvc.Models;
 using DotNetCoreIdentity.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace DotNetCoreIdentity.Mvc.Controllers
 {
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly SignInManager<IdentityUser> _sigInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        public AccountController(SignInManager<IdentityUser> sigInManager, UserManager<IdentityUser> userManager)
+        private readonly SignInManager<User> _signInManager;
+
+        private readonly UserManager<User> _userManager;
+
+        public AccountController(SignInManager<User> signInManager,UserManager<User> userManager)
         {
-            _sigInManager = sigInManager;
+            _signInManager = signInManager;
             _userManager = userManager;
         }
-        // GET: AccountController
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
-        //// GET: AccountController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        // GET: AccountController/Create
-        public ActionResult Register()
+        //登陆
+        public IActionResult Login()
         {
             return View();
         }
 
-        // POST: AccountController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel viewModel)
-        {
-            try
-            {
-                //return RedirectToAction(nameof(Index));
-                if (ModelState.IsValid)
-                {
-                    IdentityUser user = new IdentityUser
-                    {
-                        UserName = viewModel.UserName
-                    };
-                    var result = await _userManager.CreateAsync(user, viewModel.Password);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                return View(viewModel);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AccountController/Edit/5
-        public ActionResult Login(int id)
-        {
-            return View();
-        }
-
-        // POST: AccountController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel viewModel)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
             if (!ModelState.IsValid)
-                return View(viewModel);
-            var user = _userManager.FindByNameAsync(viewModel.UserName);
+            {
+                return View(loginViewModel);
+            }
+
+            var user = await _userManager.FindByNameAsync(loginViewModel.UserName);
+
             if (user != null)
             {
-                var result = await _sigInManager.PasswordSignInAsync(viewModel.UserName, viewModel.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ModelState.AddModelError("", "用户名/密码不正确");
-            return View(viewModel);
+
+            ModelState.AddModelError("", "用户名/密码错误");
+            return View(loginViewModel);
         }
-        // POST: AccountController/Delete/5
+
+        //注册
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User
+                {
+                    UserName = registerViewModel.UserName,
+                    Name = registerViewModel.Name,
+                    Email = registerViewModel.Email,
+                    PhoneNumber = registerViewModel.PhoneNumber
+                };
+
+                var result = await _userManager.CreateAsync(user, registerViewModel.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return View(registerViewModel);
+            }
+
+            return View(registerViewModel);
+        }
+
+        //登出
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await _sigInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-     
         }
     }
 }

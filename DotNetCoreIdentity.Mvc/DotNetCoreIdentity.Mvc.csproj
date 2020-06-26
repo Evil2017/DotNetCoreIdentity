@@ -5,6 +5,54 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200626050004_initial.cs" />
+    <Compile Remove="Migrations\20200626050004_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626061607_initial.cs" />
+    <Compile Remove="Migrations\20200626061607_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626061846_initial.cs" />
+    <Compile Remove="Migrations\20200626061846_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626062701_initial.cs" />
+    <Compile Remove="Migrations\20200626062701_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626063052_initial.cs" />
+    <Compile Remove="Migrations\20200626063052_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626063416_initial.cs" />
+    <Compile Remove="Migrations\20200626063416_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626064753_initial.cs" />
+    <Compile Remove="Migrations\20200626064753_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626065200_initial.cs" />
+    <Compile Remove="Migrations\20200626065200_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626065417_initial.cs" />
+    <Compile Remove="Migrations\20200626065417_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626070940_initial.cs" />
+    <Compile Remove="Migrations\20200626070940_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626074532_initial0626.cs" />
+    <Compile Remove="Migrations\20200626074532_initial0626.Designer.cs" />
+    <Compile Remove="Migrations\20200626075215_initial.cs" />
+    <Compile Remove="Migrations\20200626075215_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626075514_initial.cs" />
+    <Compile Remove="Migrations\20200626075514_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626075554_initial.cs" />
+    <Compile Remove="Migrations\20200626075554_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626075641_initial.cs" />
+    <Compile Remove="Migrations\20200626075641_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626080236_initial.cs" />
+    <Compile Remove="Migrations\20200626080236_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626080341_initial.cs" />
+    <Compile Remove="Migrations\20200626080341_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626080433_initial.cs" />
+    <Compile Remove="Migrations\20200626080433_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626080707_initial.cs" />
+    <Compile Remove="Migrations\20200626080707_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626080853_initial.cs" />
+    <Compile Remove="Migrations\20200626080853_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626080949_initial.cs" />
+    <Compile Remove="Migrations\20200626080949_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200626081015_initial.cs" />
+    <Compile Remove="Migrations\20200626081015_initial.Designer.cs" />
+    <Compile Remove="Models\UserLogin.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
