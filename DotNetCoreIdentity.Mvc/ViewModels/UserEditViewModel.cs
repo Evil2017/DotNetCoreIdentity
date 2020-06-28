@@ -6,7 +6,7 @@ namespace DotNetCoreIdentity.Mvc.ViewModels
 {
     public class UserEditViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [Display(Name = "用户名")]

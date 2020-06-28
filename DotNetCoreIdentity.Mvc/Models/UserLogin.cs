@@ -2,7 +2,7 @@
 
 namespace DotNetCoreIdentity.Mvc.Models
 {
-    public class UserLogin : IdentityUserClaim<int>
+    public class UserLogin : IdentityUserClaim<string>
     {
      
     }
