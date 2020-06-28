@@ -10,11 +10,11 @@ namespace DotNetCoreIdentity.Mvc.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly SignInManager<User> _signInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(SignInManager<User> signInManager,UserManager<User> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager,UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -59,7 +59,7 @@ namespace DotNetCoreIdentity.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User
+                var user = new ApplicationUser
                 {
                     UserName = registerViewModel.UserName,
                     Name = registerViewModel.Name,

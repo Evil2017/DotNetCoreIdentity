@@ -1,20 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DotNetCoreIdentity.Mvc.Auth;
 using DotNetCoreIdentity.Mvc.Data;
+using DotNetCoreIdentity.Mvc.Filters;
 using DotNetCoreIdentity.Mvc.Models;
+using DotNetCoreIdentity.Mvc.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace DotNetCoreIdentity.Mvc
 {
@@ -38,11 +38,10 @@ namespace DotNetCoreIdentity.Mvc
             });
 
             //注册数据库连接
-            services.AddDbContext<ApplicationDbContext>(options =>
-                   options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
             // 配置 Identity
-            services.AddIdentity<User, Role>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
 
@@ -80,6 +79,61 @@ namespace DotNetCoreIdentity.Mvc
                 options.SlidingExpiration = true;
             });
 
+            services.AddScoped<IAlbumService, AlbumEfService>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("仅限管理员", policy => policy.RequireRole("Administrators"));
+                options.AddPolicy("编辑专辑", policy => policy.RequireClaim("Edit Albums"));
+                options.AddPolicy("编辑专辑1", policy => policy.RequireAssertion(context =>
+                {
+                    if (context.User.HasClaim(x => x.Type == "Edit Albums"))
+                        return true;
+                    return false;
+                }));
+                options.AddPolicy("编辑专辑2", policy => policy.AddRequirements(
+                    // new EmailRequirement("@126.com"),
+                    new QualifiedUserRequirement()));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, EmailHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanEditAlbumHandler>();
+            services.AddSingleton<IAuthorizationHandler, AdministratorsHandler>();
+
+            services.AddAntiforgery(options =>
+            {
+                options.FormFieldName = "AntiforgeryFieldname";
+                options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
+                options.SuppressXFrameOptionsHeader = false;
+            });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+
+                // options.Filters.Add(new LogResourceFilter());
+                // options.Filters.Add(typeof(LogAsyncResourceFilter));
+                options.Filters.Add<LogResourceFilter>();
+
+                options.CacheProfiles.Add("Default", new CacheProfile
+                {
+                    Duration = 60
+                });
+                options.CacheProfiles.Add("Never", new CacheProfile
+                {
+                    Location = ResponseCacheLocation.None,
+                    NoStore = true
+                });
+            });
+
+             services.AddMemoryCache();
+            //services.AddDistributedRedisCache(options =>
+            //{
+            //    options.Configuration = "localhost";
+            //    options.InstanceName = "redis-for-albums";
+            //});
+
+            services.AddResponseCompression();
 
         }
 
