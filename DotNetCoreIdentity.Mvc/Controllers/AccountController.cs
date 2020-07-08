@@ -14,7 +14,7 @@ namespace DotNetCoreIdentity.Mvc.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager,UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -47,7 +47,55 @@ namespace DotNetCoreIdentity.Mvc.Controllers
             ModelState.AddModelError("", "用户名/密码错误");
             return View(loginViewModel);
         }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        //{
+        //    ViewData["ReturnUrl"] = returnUrl;
+        //    if (model.Email.IndexOf('@') > -1)
+        //    {
+        //        //Validate email format
+        //        string emailRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+        //                               @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+        //                                  @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+        //        Regex re = new Regex(emailRegex);
+        //        if (!re.IsMatch(model.Email))
+        //        {
+        //            ModelState.AddModelError("Email", "Email is not valid");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //validate Username format
+        //        string emailRegex = @"^[a-zA-Z0-9]*$";
+        //        Regex re = new Regex(emailRegex);
+        //        if (!re.IsMatch(model.Email))
+        //        {
+        //            ModelState.AddModelError("Email", "Username is not valid");
+        //        }
+        //    }
 
+        //    if (ModelState.IsValid)
+        //    {
+        //        var userName = model.Email;
+        //        if (userName.IndexOf('@') > -1)
+        //        {
+        //            var user = await _userManager.FindByEmailAsync(model.Email);
+        //            if (user == null)
+        //            {
+        //                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        //                return View(model);
+        //            }
+        //            else
+        //            {
+        //                userName = user.UserName;
+        //            }
+        //        }
+        //        var result = await _signInManager.PasswordSignInAsync(userName, model.Password, model.RememberMe, lockoutOnFailure: false);
+        //    }
+        //    return Ok();
+        //}
         //注册
         public IActionResult Register()
         {
@@ -62,9 +110,11 @@ namespace DotNetCoreIdentity.Mvc.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = registerViewModel.UserName,
-                    Name = registerViewModel.Name,
                     Email = registerViewModel.Email,
-                    PhoneNumber = registerViewModel.PhoneNumber
+                    PhoneNumber = registerViewModel.PhoneNumber,
+
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
                 };
 
                 var result = await _userManager.CreateAsync(user, registerViewModel.Password);

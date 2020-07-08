@@ -6,7 +6,7 @@ namespace DotNetCoreIdentity.Mvc.ViewModels
     public class ManageClaimsViewModel
     {
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         public string ClaimId { get; set; }

@@ -1,5 +1,3 @@
-using System;
-
 namespace DotNetCoreIdentity.Mvc.Models
 {
     public class ErrorViewModel

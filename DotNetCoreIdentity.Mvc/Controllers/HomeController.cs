@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using DotNetCoreIdentity.Mvc.Data;
 using DotNetCoreIdentity.Mvc.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using DotNetCoreIdentity.Mvc.Data;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace DotNetCoreIdentity.Mvc.Controllers
 {

@@ -2,8 +2,7 @@
 
 namespace DotNetCoreIdentity.Mvc.Models
 {
-    public class UserLogin : IdentityUserClaim<string>
+    public class ApplicationRole : IdentityRole<int> 
     {
-     
     }
 }

@@ -1,6 +1,7 @@
 using DotNetCoreIdentity.Mvc.Auth;
 using DotNetCoreIdentity.Mvc.Data;
 using DotNetCoreIdentity.Mvc.Filters;
+using DotNetCoreIdentity.Mvc.Hubs;
 using DotNetCoreIdentity.Mvc.Models;
 using DotNetCoreIdentity.Mvc.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -38,11 +39,10 @@ namespace DotNetCoreIdentity.Mvc
             });
 
             //注册数据库连接
-            services.AddDbContext<ApplicationDbContext>(options =>options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySqlConnection")));
 
             // 配置 Identity
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
 
             services.Configure<IdentityOptions>(options =>
@@ -64,6 +64,7 @@ namespace DotNetCoreIdentity.Mvc
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
+                options.SignIn.RequireConfirmedEmail = true;
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -126,7 +127,7 @@ namespace DotNetCoreIdentity.Mvc
                 });
             });
 
-             services.AddMemoryCache();
+            services.AddMemoryCache();
             //services.AddDistributedRedisCache(options =>
             //{
             //    options.Configuration = "localhost";
@@ -134,7 +135,7 @@ namespace DotNetCoreIdentity.Mvc
             //});
 
             services.AddResponseCompression();
-
+            services.AddSignalR();//即时通信
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -164,6 +165,7 @@ namespace DotNetCoreIdentity.Mvc
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}/{id?}");
                 //.RequireAuthorization();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }

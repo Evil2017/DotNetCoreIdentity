@@ -138,7 +138,7 @@ namespace DotNetCoreIdentity.Mvc.Controllers
             return View("Index", await _userManager.Users.ToListAsync());
         }
 
-        public async Task<IActionResult> ManageClaims(string id)
+        public async Task<IActionResult> ManageClaims(int id)
         {
             var user = await _userManager.Users.Include(x => x.Claims)
                 .Where(x => x.Id == id).SingleOrDefaultAsync();
@@ -167,7 +167,7 @@ namespace DotNetCoreIdentity.Mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            var claim = new IdentityUserClaim<string>
+            var claim = new IdentityUserClaim<int>
             {
                 ClaimType = vm.ClaimId.ToString(),
                 ClaimValue = vm.ClaimId.ToString()
@@ -186,7 +186,7 @@ namespace DotNetCoreIdentity.Mvc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveClaim(string id, string claim)
+        public async Task<IActionResult> RemoveClaim(int id, string claim)
         {
             var user = await _userManager.Users.Include(x => x.Claims)
                 .Where(x => x.Id == id).SingleOrDefaultAsync();

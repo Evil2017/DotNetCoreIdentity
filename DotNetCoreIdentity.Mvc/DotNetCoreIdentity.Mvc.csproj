@@ -51,6 +51,31 @@
     <Compile Remove="Migrations\20200626081015_initial.Designer.cs" />
     <Compile Remove="Migrations\20200626081030_initial.cs" />
     <Compile Remove="Migrations\20200626081030_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200628170908_initial.cs" />
+    <Compile Remove="Migrations\20200628170908_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708002716_initial.cs" />
+    <Compile Remove="Migrations\20200708002716_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708002831_initial.cs" />
+    <Compile Remove="Migrations\20200708002831_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708003446_initial.cs" />
+    <Compile Remove="Migrations\20200708003446_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708005023_initial.cs" />
+    <Compile Remove="Migrations\20200708005023_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708005555_initial.cs" />
+    <Compile Remove="Migrations\20200708005555_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708043915_initial.cs" />
+    <Compile Remove="Migrations\20200708043915_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708044756_initial.cs" />
+    <Compile Remove="Migrations\20200708044756_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708061636_initial.cs" />
+    <Compile Remove="Migrations\20200708061636_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708062735_initial.cs" />
+    <Compile Remove="Migrations\20200708062735_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200708063154_initial.cs" />
+    <Compile Remove="Migrations\20200708063154_initial.Designer.cs" />
+    <Compile Remove="Models\ApplicationRole.cs" />
+    <Compile Remove="Models\ApplicationUserClaim.cs" />
+    <Compile Remove="Models\ApplicationUserLogin.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +102,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
